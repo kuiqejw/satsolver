@@ -104,7 +104,11 @@ public class SATSolverTest {
     }
     
     public static void main(String[] args) {
-    	Formula fom = parse("./src/Project-2D/project-2d-starting/sampleCNF/largeSat.cnf");
+    	if (args.length < 1) {
+    		System.out.println("file name not given");
+    		System.exit(0);
+    	}
+    	Formula fom = parse(args[0]);
     	System.out.println("started");
     	long started = System.nanoTime();
     	Environment solution = SATSolver.solve(fom);
