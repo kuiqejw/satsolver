@@ -70,50 +70,6 @@ public class SATSolverTest {
         return c;
     }
     
-    private static Formula parse(String filename) {
-    	try {
-			BufferedReader br = new BufferedReader(new FileReader(filename));
-			String line;
-			Clause clause = new Clause();
-			Formula formula = new Formula();
-			while ((line = br.readLine()) != null) {
-				if (line.equals("") || line.charAt(0) == 'c' || line.charAt(0) == 'p') {
-					continue;
-				}
-				String[] tokens = line.split("\\s+");
-				for (String token : tokens) {
-					if (token.equals("0")) {
-						formula = formula.addClause(clause);
-						clause = new Clause();
-					} else {
-						if (token.charAt(0) == '-') {
-							clause = clause.add(NegLiteral.make(token.substring(1)));
-						} else {
-							clause = clause.add(PosLiteral.make(token));
-						}
-					}
-				}
-			}
-			return formula;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-    	
-    }
-    
-    public static void main(String[] args) {
-    	Formula fom = parse("./src/Project-2D/project-2d-starting/sampleCNF/largeSat.cnf");
-    	System.out.println("started");
-    	long started = System.nanoTime();
-    	Environment solution = SATSolver.solve(fom);
-    	long end = System.nanoTime();
-    	System.out.println("ended");
-    	System.out.println((end - started)/1000000 + "ms");
-    	System.out.println(solution);
-    	// new SATSolverTest().testSATSolver2();
-    }
     
     
     
