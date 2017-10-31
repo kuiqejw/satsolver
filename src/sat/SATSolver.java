@@ -1,5 +1,7 @@
 package sat;
 
+import java.util.Iterator;
+
 import immutable.EmptyImList;
 import immutable.ImList;
 import sat.env.Bool;
@@ -62,7 +64,9 @@ public class SATSolver {
 		}
 		int shortnum = 1000;
 		Clause shortest = null;
-		for (Clause c : clauses){
+		Iterator<Clause> iter = clauses.iterator();
+		while (iter.hasNext()){
+			Clause c = iter.next();
 			int size = c.size();
 			if (size == 0) 
 				return null;
@@ -104,7 +108,9 @@ public class SATSolver {
 	private static ImList<Clause> substitute(ImList<Clause> clauses,
 			Literal l) {
 		ImList<Clause> output = new EmptyImList<Clause>();
-		for (Clause clause : clauses){
+		Iterator<Clause> iterator = clauses.iterator();
+		while (iterator.hasNext()){
+			Clause clause = iterator.next();
 			if (clause.contains(l)||clause.contains(l.getNegation()))
 					clause = clause.reduce(l);
 			if (clause != null) output = output.add(clause);

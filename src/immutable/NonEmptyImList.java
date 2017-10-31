@@ -71,6 +71,16 @@ public class NonEmptyImList<E> implements ImList<E> {
         assert e != null: "NonEmptyList.contains(null)";
         return element.equals(e) || rest.contains(e);
     }
+    public boolean contains_loop(E e){
+    	Iterator<E> iter = iterator();
+    	while (iter.hasNext()){
+    		E ee = iter.next();
+    		if (ee.equals(e)){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     public int size () {
         return size;
