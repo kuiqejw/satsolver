@@ -105,7 +105,8 @@ public class SATSolver {
 			Literal l) {
 		ImList<Clause> output = new EmptyImList<Clause>();
 		for (Clause clause : clauses){
-			clause = clause.reduce(l);
+			if (clause.contains(l)||clause.contains(l.getNegation()))
+					clause = clause.reduce(l);
 			if (clause != null) output = output.add(clause);
 		}
 		return output;
