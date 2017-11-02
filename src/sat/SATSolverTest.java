@@ -20,43 +20,6 @@ public class SATSolverTest {
     Literal nb = b.getNegation();
     Literal nc = c.getNegation();
 
-    // TODO: add the main method that reads the .cnf file and calls SATSolver.solve to determine the satisfiability
-
-    public void testSATSolver1() {
-        // (a v b)
-        Environment e = SATSolver.solve(makeFm(makeCl(a, b)));
-        /*
-         assertTrue( "one of the literals should be set to true",
-         Bool.TRUE == e.get(a.getVariable())
-         || Bool.TRUE == e.get(b.getVariable())    );
-         
-         */
-    }
-
-
-    public void testSATSolver2() {
-        // (~a)
-        Environment e = SATSolver.solve(makeFm(makeCl(na)));
-        /*
-         assertEquals( Bool.FALSE, e.get(na.getVariable()));
-         */
-    }
-
-    private static Formula makeFm(Clause... e) {
-        Formula f = new Formula();
-        for (Clause c : e) {
-            f = f.addClause(c);
-        }
-        return f;
-    }
-
-    private static Clause makeCl(Literal... e) {
-        Clause c = new Clause();
-        for (Literal l : e) {
-            c = c.add(l);
-        }
-        return c;
-    }
 
     public static Formula parse(String filename) {
         try {
@@ -95,9 +58,11 @@ public class SATSolverTest {
         }
     }
 
-    public static void printOutput(String file) {
+    public static void solveCNF(String file) {
         System.out.println("File: " + file);
         Formula f= parse(file);
+        String[] path = file.split("/");
+        String filename = path[path.length -1].split("\\.")[0];
 
         System.out.println("SAT solve starts!!!");
         long started = System.nanoTime();
@@ -107,12 +72,8 @@ public class SATSolverTest {
         System.out.println("Time: " + timeTaken/1000000.0 + "ms");
         if (e != null) {
             System.out.println("satisfiable");
-            File txtFile = new File("BoolAssignment" + ".txt");
-            int counter = 1;
-            while (txtFile.exists()){
-                counter++;
-                txtFile = new File("BoolAssignment" + (counter - 1) + ".txt");
-            }
+            File txtFile = new File("BoolAssignment_"  + filename + ".txt");
+
             if (!txtFile.exists()){
                 try (Writer writeFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(txtFile), "utf-8"))){
 
@@ -123,6 +84,7 @@ public class SATSolverTest {
                         writeFile.write(line + "\r\n");
                     }
                     writeFile.close();
+                    System.out.println("Wrote solution to " + "BoolAssignment_"  + filename + ".txt");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -135,13 +97,12 @@ public class SATSolverTest {
     }
 
     public static void main(String[] args) {
+    	if (args.length < 1) {
+    		System.out.println("File not provided");
+    		System.exit(1);
+    	}
 
-        String largeSat = "./src/Project-2D/project-2d-starting/sampleCNF/largeSat.cnf";
-        String largeUnsat = "./src/Project-2D/project-2d-starting/sampleCNF/largeUnsat.cnf";
-        String s8Sat = "./src/Project-2D/project-2d-starting/sampleCNF/s8Sat.cnf";
-
-        printOutput(largeSat);
-        printOutput(largeUnsat);
-        printOutput(s8Sat);
+        String filename = args[0];
+        solveCNF(filename);
     }
 }

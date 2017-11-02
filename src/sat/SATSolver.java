@@ -25,23 +25,6 @@ public class SATSolver {
 		Environment env = new Environment();
 		return solve(formula.getClauses(), env);
 		
-		//env potential answer = solve (substituted version, env)
-			//if answer = null, try false
-			//
-			/*
-			if (shortest.reduce(l) == null){
-				env.putTrue(l); 
-				clauses = substitute(clauses, l);
-			}
-			else{
-				if (shortest.reduce(l.getNegation()) == null){
-					env.putFalse(l);
-					clauses = substitute(clauses, l);
-				}
-				else return null;
-			}*/
-		
-		
 	}
 
 	/**
