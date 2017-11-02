@@ -114,7 +114,7 @@ public class Clause implements Iterable<Literal> {
      * @return true iff this contains the literal l
      */
     public boolean contains(Literal l) {
-        return literals.contains(l);
+        return literals.contains_loop(l);
     }
 
     /**
@@ -160,7 +160,7 @@ public class Clause implements Iterable<Literal> {
      * or null if the entire clause becomes true
      */
     public Clause reduce(Literal literal) {
-        ImList<Literal> reducedLiterals = reduce(literals, literal);
+        ImList<Literal> reducedLiterals = reduce_loop(literals, literal);
         if (reducedLiterals == null) return null;
         else return new Clause(reducedLiterals);
     }
@@ -176,6 +176,21 @@ public class Clause implements Iterable<Literal> {
             if (restR == null) return null;
             return restR.add(first);
         }
+    }
+    
+    private static ImList<Literal> reduce_loop(ImList<Literal> literals, Literal l) {
+    	if (literals.isEmpty()) return literals;
+        ImList<Literal> remaining = new EmptyImList<Literal>();
+        Iterator<Literal> iter = literals.iterator();
+        while (iter.hasNext()) {
+        	Literal lit = iter.next();
+        	if (lit.equals(l)) {
+        		return null;
+        	} else if (!lit.equals(l.getNegation())) {
+        		remaining = remaining.add(lit);
+        	}
+        }
+        return remaining;
     }
 
     public String toString() {

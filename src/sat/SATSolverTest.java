@@ -104,5 +104,6 @@ public class SATSolverTest {
 
         String filename = args[0];
         solveCNF(filename);
+
     }
 }

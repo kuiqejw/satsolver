@@ -48,6 +48,8 @@ public interface ImList<E> extends Iterable<E> {
      * @return exists i such that e_i.equals(e) where e_i is ith element of this
      */
     public boolean contains(E e);
+    
+    public boolean contains_loop(E e);
 
     /**
      * @return number of elements in this

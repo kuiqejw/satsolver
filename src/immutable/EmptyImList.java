@@ -69,4 +69,10 @@ public class EmptyImList<E> implements ImList<E> {
     public String toString() {
         return "[]";
     }
+
+	@Override
+	public boolean contains_loop(E e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
