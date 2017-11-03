@@ -34,6 +34,9 @@ public class SATSolverTest {
                 }
                 String[] literalStrings = line1.split("\\s+");
                 for (String literalString : literalStrings) {
+                  if (literalString.equals("")) {
+                    continue;
+                  }
                     if (!literalString.equals("0")) {
                         Literal literal;
                         if (literalString.charAt(0) == '-') {
